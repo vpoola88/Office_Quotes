@@ -1,0 +1,15 @@
+<%= form_for @new_character do |f| %>
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+      <br>
+  Quote:
+  <ul>
+    <%= f.fields_for :quotes do |quote| %>
+      <li>
+        <%= quote.label :content %>
+        <%= quote.text_field :content %>
+      </li>
+    <% end %>
+  </ul>
+  <%= f.submit %>
+<% end %>
