@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="row">
+    <% @characters.each do |character| %>
+      <h2><%= character.name %></h2>
+      <% character.quotes.each do |quote| %>
+          <p><%= quote.content %></p>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="row">
+    <%= link_to 'new', new_character_path %>
+  </div>
+</div>

@@ -2,6 +2,10 @@ class CharactersController < ApplicationController
 
   def index
     @characters = Character.all
+    respond_to do |data_type|
+      data_type.html { render 'index' }
+      data_type.json { render json: @characters }
+    end
   end
 
   def show
@@ -10,7 +14,6 @@ class CharactersController < ApplicationController
 
   def new
     @new_character = Character.new
-    @new_character.quotes.build
   end
 
   def create
@@ -34,7 +37,7 @@ class CharactersController < ApplicationController
   private
 
     def character_params
-      params.require(:character).permit(:name, quotes_attributes: [:content])
+      params.require(:character).permit(:name, :quote)
     end
 
 end
