@@ -3,7 +3,7 @@ var CharacterBox = React.createClass({
     return (
       <div className="characterBox">
         <CharacterList />
-        <CharacterLink />
+
       </div>
     );
   }
@@ -45,8 +45,9 @@ var CharacterList = React.createClass({
       )
     });
     return (
-      <div className="characters">
+      <div className="characters" >
         {characterNodes}
+        <CharacterForm updateCharacters={this.getCharacters} />
       </div>
     );
   }
@@ -55,10 +56,12 @@ var CharacterList = React.createClass({
 var Character = React.createClass({
   render: function(){
     return (
-     <div>
-      <h1>{this.props.characterName}</h1>
-      <p>{this.props.characterQuote}</p>
-    </div>
+      <div className="col-xs-6">
+        <blockquote>
+          <p>{this.props.characterQuote}</p>
+          <footer>{this.props.characterName}</footer>
+        </blockquote>
+      </div>
     );
   }
 });
@@ -85,6 +88,56 @@ var CharacterLink = React.createClass({
     return (
       <div className="link" onClick={this.getForm}>
         <a href="/characters/new" className="btn btn-primary">Create Character</a>
+      </div>
+    );
+  }
+});
+
+
+var CharacterForm = React.createClass({
+  getInitialState: function(){
+    return {
+      newCharacter: ""
+    };
+  },
+
+  handleSubmit: function(event){
+    event.preventDefault();
+    var characterForm = this;
+
+    var name = React.findDOMNode(this.refs.name).value.trim();
+    var quote = React.findDOMNode(this.refs.quote).value.trim();
+
+    var request = $.ajax({
+      type: 'POST',
+      url: '/characters',
+      data:
+        { character:
+          {
+            realBadAssShit: "scary",
+            name: name,
+            quote: quote
+          }
+        },
+      dataType: 'JSON'
+    });
+    request.done(function(newCharacter) {
+      characterForm.props.updateCharacters();
+    });
+    request.fail(function(xhr, status, error) {
+      alert('fuck you');
+    });
+
+  },
+
+  render: function() {
+    return (
+      <div className="row">
+        <form id="section" className="col-xs-12" ref="coolForm" onSubmit={this.handleSubmit}>
+          <input type="text" placeholder="Character Name:" ref="name" />
+          <input type="text" placeholder="Quote:" ref="quote" />
+          <input type="submit" value="Create Quote!" />
+        </form>
       </div>
     );
   }
