@@ -1,5 +1,7 @@
 
 
-Character.create(name: "Jim Halpert")
+Character.create(name: "Jim Halpert", quote: "Hi Five")
 
-Quote.create(content: "Question. What Kind of bear is best?", character_id: 1)
+Character.create(name: "Dwigt Shrute", quote: "Michael!")
+
+Character.create(name: "Michael Scott", quote: "wooot")

@@ -14,6 +14,10 @@ class CharactersController < ApplicationController
 
   def new
     @new_character = Character.new
+    respond_to do |data_type|
+      data_type.html { render 'index' }
+      data_type.json {  render partial: 'form', formats: :html }
+    end
   end
 
   def create

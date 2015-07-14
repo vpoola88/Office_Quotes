@@ -3,6 +3,7 @@ var CharacterBox = React.createClass({
     return (
       <div className="characterBox">
         <CharacterList />
+        <CharacterLink />
       </div>
     );
   }
@@ -58,6 +59,33 @@ var Character = React.createClass({
       <h1>{this.props.characterName}</h1>
       <p>{this.props.characterQuote}</p>
     </div>
+    );
+  }
+});
+
+var CharacterLink = React.createClass({
+  getForm: function(event){
+    event.preventDefault();
+      $.ajax({
+        url: "/characters/new",
+        method: "get",
+        dataType: 'json',
+        success: function(response){
+          console.log(response)
+          alert(response)
+        },
+        error: function(response){
+          console.log('fail')
+          console.log(response)
+          $('.link').append(response.responseText)
+        }
+      });
+    },
+  render: function(){
+    return (
+      <div className="link" onClick={this.getForm}>
+        <a href="/characters/new" className="btn btn-primary">Create Character</a>
+      </div>
     );
   }
 });
